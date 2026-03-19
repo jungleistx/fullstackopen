@@ -1,12 +1,29 @@
 
 const Header = (props) => {
-
   return (
     <>
       <h1>{props.course}</h1>
     </>
   )
 }
+
+
+const Content = (props) => {
+  return (
+    <>
+      <p>
+        {props.p1} {props.ex1}
+      </p>
+      <p>
+        {props.p2} {props.ex2}
+      </p>
+      <p>
+        {props.p3} {props.ex3}
+      </p>
+    </>
+  )
+}
+
 
 
 
@@ -32,6 +49,9 @@ const App = () => {
       <p>
         {part3} {exercises3}
       </p>
+      <Content p1={part1} ex1={exercises1}
+        p2={part2} ex2={exercises2}
+        p3={part3} ex3={exercises3}/>
       <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
     </div>
   )
