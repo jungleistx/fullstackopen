@@ -25,6 +25,13 @@ const Content = (props) => {
 }
 
 
+const Total = (props) => {
+  return (
+    <>
+      <p>Number of exercises {props.ex1 + props.ex2 + props.ex3}</p>
+    </>
+  )
+}
 
 
 const App = () => {
@@ -38,23 +45,12 @@ const App = () => {
 
   return (
     <div>
-      <h1>{course}</h1>
       <Header course={course} />
-      <p>
-        {part1} {exercises1}
-      </p>
-      <p>
-        {part2} {exercises2}
-      </p>
-      <p>
-        {part3} {exercises3}
-      </p>
-      <Content p1={part1} ex1={exercises1}
-        p2={part2} ex2={exercises2}
-        p3={part3} ex3={exercises3}/>
-      <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
+      <Content p1={part1} ex1={exercises1} p2={part2} ex2={exercises2} p3={part3} ex3={exercises3}/>
+      <Total ex1={exercises1} ex2={exercises2} ex3={exercises3}/>
     </div>
   )
 }
+
 
 export default App
