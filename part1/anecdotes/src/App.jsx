@@ -7,6 +7,12 @@ const Button = (props) => {
   )
 }
 
+
+const Header = ({ text }) => (
+  <h1>{text}</h1>
+)
+
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -40,15 +46,19 @@ const App = () => {
   return (
     <>
       <div>
+        <Header text="Anecdote of the day" />
         {anecdotes[selected]}
         <div>
           has {votes[selected]} votes
         </div>
+        <div>
+          <Button onClick={handleVoteButton} text="vote"/>
+          <Button onClick={handleAnecdoteButton} text="next anecdote"/>
+        </div>
       </div>
 
       <div>
-        <Button onClick={handleVoteButton} text="vote"/>
-        <Button onClick={handleAnecdoteButton} text="next anecdote"/>
+        <Header text="Anecdote with most votes" />
       </div>
     </>
   )
