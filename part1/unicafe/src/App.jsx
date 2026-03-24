@@ -8,9 +8,16 @@ const ReviewButton = (props) => (
 )
 
 
-const Statistic = (props) => (
-  <p>{props.text} {props.value}</p>
-)
+const Statistic = ({ text, value }) => {
+  if (text === "positive") {
+    return (
+      <p>{text} {value} %</p>
+    )
+  }
+  return (
+    <p>{text} {value}</p>
+  )
+}
 
 
 const Statistics = ({ good, neutral, bad}) => {
@@ -18,6 +25,7 @@ const Statistics = ({ good, neutral, bad}) => {
 
   if (total > 0) {
     const score = (good - bad) / total
+    const positive = good / total * 100
 
     return (
       <>
@@ -27,6 +35,7 @@ const Statistics = ({ good, neutral, bad}) => {
         <Statistic text="bad" value={bad}/>
         <Statistic text="all" value={total}/>
         <Statistic text="average" value={score}/>
+        <Statistic text="positive" value={positive}/>
       </>
     )
   }
