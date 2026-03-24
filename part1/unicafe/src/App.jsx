@@ -11,11 +11,17 @@ const ReviewButton = (props) => (
 const Statistic = ({ text, value }) => {
   if (text === "positive") {
     return (
-      <p>{text} {value} %</p>
+      <tr>
+        <td>{text} </td>
+        <td>{value} %</td>
+      </tr>
     )
   }
   return (
-    <p>{text} {value}</p>
+    <tr>
+      <td>{text} </td>
+      <td>{value}</td>
+    </tr>
   )
 }
 
@@ -30,12 +36,17 @@ const Statistics = ({ good, neutral, bad}) => {
     return (
       <>
         <h2>statistics</h2>
-        <Statistic text="good" value={good}/>
-        <Statistic text="neutral" value={neutral}/>
-        <Statistic text="bad" value={bad}/>
-        <Statistic text="all" value={total}/>
-        <Statistic text="average" value={score}/>
-        <Statistic text="positive" value={positive}/>
+
+        <table>
+          <tbody>
+            <Statistic text="good" value={good}/>
+            <Statistic text="neutral" value={neutral}/>
+            <Statistic text="bad" value={bad}/>
+            <Statistic text="all" value={total}/>
+            <Statistic text="positive" value={positive}/>
+            <Statistic text="average" value={score}/>
+          </tbody>
+        </table>
       </>
     )
   }
