@@ -41,6 +41,9 @@ const App = () => {
     <>
       <div>
         {anecdotes[selected]}
+        <div>
+          has {votes[selected]} votes
+        </div>
       </div>
 
       <div>
