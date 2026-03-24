@@ -39,23 +39,6 @@ const Statistics = ({ good, neutral, bad}) => {
 }
 
 
-const Average = ({ text, pos, neg, total }) => {
-  if (total > 0) {
-    const score = (pos-neg) / total
-
-    return (
-      <p>{text} {score}</p>
-    )
-  }
-
-  else {
-    return (
-      <p>{text} 0</p>
-    )
-  }
-}
-
-
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
