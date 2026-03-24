@@ -13,6 +13,32 @@ const Statistic = (props) => (
 )
 
 
+const Statistics = ({ good, neutral, bad}) => {
+  const total = good + neutral + bad
+
+  if (total > 0) {
+    const score = (good - bad) / total
+
+    return (
+      <>
+        <h2>statistics</h2>
+        <Statistic text="good" value={good}/>
+        <Statistic text="neutral" value={neutral}/>
+        <Statistic text="bad" value={bad}/>
+        <Statistic text="all" value={total}/>
+        <Statistic text="average" value={score}/>
+      </>
+    )
+  }
+  return (
+    <>
+      <h2>statistics</h2>
+      <p>No feedback given</p>
+    </>
+  )
+}
+
+
 const Average = ({ text, pos, neg, total }) => {
   if (total > 0) {
     const score = (pos-neg) / total
@@ -59,16 +85,7 @@ const App = () => {
         <ReviewButton onClick={handleBadReview} text="bad"/>
       </section>
 
-      <section>
-        <h2>statistics</h2>
-
-        <Statistic text="good" value={good}/>
-        <Statistic text="neutral" value={neutral}/>
-        <Statistic text="bad" value={bad}/>
-        <Statistic text="all" value={total}/>
-        <Average text="average" pos={good} neg={bad} total={total}/>
-      </section>
-
+      <Statistics good={good} neutral={neutral} bad={bad}/>
     </div>
   )
 }
