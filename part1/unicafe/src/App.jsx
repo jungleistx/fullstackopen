@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 
-const Button = (props) => (
+const ReviewButton = (props) => (
   <button onClick={props.onClick}>
     {props.text}
   </button>
@@ -20,7 +20,6 @@ const App = () => {
   const [bad, setBad] = useState(0)
   const total = good + neutral + bad
 
-
   const handleGoodReview = () => {
     setGood(good + 1)
   }
@@ -37,9 +36,9 @@ const App = () => {
     <div>
       <h1>give feedback</h1>
 
-      <Button onClick={handleGoodReview} text="good"/>
-      <Button onClick={handleNeutralReview} text="neutral"/>
-      <Button onClick={handleBadReview} text="bad"/>
+      <ReviewButton onClick={handleGoodReview} text="good"/>
+      <ReviewButton onClick={handleNeutralReview} text="neutral"/>
+      <ReviewButton onClick={handleBadReview} text="bad"/>
 
       <section>
         <h2>statistics</h2>
