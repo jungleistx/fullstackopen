@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 
-const NextAnecdoteButton = (props) => {
+const Button = (props) => {
   return (
     <button onClick={props.onClick}>{props.text}</button>
   )
@@ -36,7 +36,7 @@ const App = () => {
         {anecdotes[selected]}
       </div>
 
-      <NextAnecdoteButton onClick={handleAnecdoteButton} text="next anecdote"/>
+      <Button onClick={handleAnecdoteButton} text="next anecdote"/>
     </>
   )
 }
