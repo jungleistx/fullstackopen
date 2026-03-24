@@ -13,6 +13,23 @@ const Statistic = (props) => (
 )
 
 
+const Average = ({ text, pos, neg, total }) => {
+  if (total > 0) {
+    const score = (pos-neg) / total
+
+    return (
+      <p>{text} {score}</p>
+    )
+  }
+
+  else {
+    return (
+      <p>{text} 0</p>
+    )
+  }
+}
+
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -34,18 +51,22 @@ const App = () => {
 
   return (
     <div>
-      <h1>give feedback</h1>
+      <section>
+        <h1>give feedback</h1>
 
-      <ReviewButton onClick={handleGoodReview} text="good"/>
-      <ReviewButton onClick={handleNeutralReview} text="neutral"/>
-      <ReviewButton onClick={handleBadReview} text="bad"/>
+        <ReviewButton onClick={handleGoodReview} text="good"/>
+        <ReviewButton onClick={handleNeutralReview} text="neutral"/>
+        <ReviewButton onClick={handleBadReview} text="bad"/>
+      </section>
 
       <section>
         <h2>statistics</h2>
+
         <Statistic text="good" value={good}/>
         <Statistic text="neutral" value={neutral}/>
         <Statistic text="bad" value={bad}/>
         <Statistic text="all" value={total}/>
+        <Average text="average" pos={good} neg={bad} total={total}/>
       </section>
 
     </div>
