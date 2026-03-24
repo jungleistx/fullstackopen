@@ -18,7 +18,6 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
-
   const [selected, setSelected] = useState(0)
 
   const handleAnecdoteButton = () => {
@@ -36,7 +35,10 @@ const App = () => {
         {anecdotes[selected]}
       </div>
 
-      <Button onClick={handleAnecdoteButton} text="next anecdote"/>
+      <div>
+        <Button text="vote"/>
+        <Button onClick={handleAnecdoteButton} text="next anecdote"/>
+      </div>
     </>
   )
 }
