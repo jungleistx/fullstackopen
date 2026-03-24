@@ -18,6 +18,8 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const total = good + neutral + bad
+
 
   const handleGoodReview = () => {
     setGood(good + 1)
@@ -44,6 +46,7 @@ const App = () => {
         <Statistic text="good" value={good}/>
         <Statistic text="neutral" value={neutral}/>
         <Statistic text="bad" value={bad}/>
+        <Statistic text="all" value={total}/>
       </section>
 
     </div>
