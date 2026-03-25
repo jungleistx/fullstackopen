@@ -13,15 +13,15 @@ const Header = ({ text }) => (
 )
 
 
-const DailyAnecdote = ({ anecdotes, index, votes }) => {
+const Anecdote = ({ anecdotes, index, votes }) => {
   return (
     <>
-      <Header text="Anecdote of the day" />
       <div>{anecdotes[index]}</div>
       <div>has {votes[index]} votes</div>
     </>
   )
 }
+
 
 const App = () => {
   const anecdotes = [
@@ -56,7 +56,8 @@ const App = () => {
   return (
     <>
       <div>
-        <DailyAnecdote anecdotes={anecdotes} index={selected} votes={votes} />
+        <Header text="Anecdote of the day" />
+        <Anecdote anecdotes={anecdotes} index={selected} votes={votes} />
         <Button onClick={handleVoteButton} text="vote"/>
         <Button onClick={handleAnecdoteButton} text="next anecdote"/>
       </div>
