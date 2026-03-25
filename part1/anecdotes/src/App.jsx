@@ -42,15 +42,18 @@ const App = () => {
 
     const max = anecdotes.length
     const index = getRandomInt(max)
-
     setSelected(index);
   }
 
   const handleVoteButton = () => {
     const copyOfVotes = [...votes]
-
     copyOfVotes[selected] += 1
     setVotes(copyOfVotes)
+  }
+
+  const getPopularIndex = () => {
+    const maxValue = Math.max(...votes)
+    return votes.indexOf(maxValue)
   }
 
   return (
@@ -64,6 +67,7 @@ const App = () => {
 
       <div>
         <Header text="Anecdote with most votes" />
+        <Anecdote anecdotes={anecdotes} index={getPopularIndex()} votes={votes} />
       </div>
     </>
   )
