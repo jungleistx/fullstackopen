@@ -1,3 +1,6 @@
+import Part from './Part'
+
+
 const Content = (props) => (
   <div>
     <Part part={props.parts[0]} />
