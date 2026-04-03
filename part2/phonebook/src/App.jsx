@@ -6,10 +6,20 @@ const App = () => {
   ])
   const [newName, setNewName] = useState('')
 
+  const addPerson = (event) => {
+    event.preventDefault()
+    const personObject = {
+      name: newName
+    }
+
+    setPersons(persons.concat(personObject))
+    setNewName('')
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <form>
+      <form onSubmit={addPerson}>
         <div>
           name: <input />
         </div>
