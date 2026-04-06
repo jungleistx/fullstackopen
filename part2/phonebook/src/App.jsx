@@ -6,14 +6,28 @@ const App = () => {
   ])
   const [newName, setNewName] = useState('')
 
+  const isNameInPersons = (name) => {
+    if (persons.some(person => person.name === name)) {
+      return true
+    }
+    return false
+  }
+
   const addPerson = (event) => {
     event.preventDefault()
-    const personObject = {
-      name: newName
-    }
 
-    setPersons(persons.concat(personObject))
-    setNewName('')
+    if (newName) {
+      if (isNameInPersons(newName)) {
+        alert(`${newName} is already added to phonebook`)
+      }
+      else {
+        const personObject = {
+          name: newName
+        }
+        setPersons(persons.concat(personObject))
+        setNewName('')
+      }
+    }
   }
 
   const handleNameChange = (event) => {
