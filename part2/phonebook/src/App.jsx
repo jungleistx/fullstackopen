@@ -73,7 +73,7 @@ const App = () => {
 
       <Filter value={filter} onChange={handleFilterChange}/>
 
-      <h2>Add a new</h2>
+      <h3>Add a new</h3>
 
       <PersonForm
         onSubmit={addPerson}
@@ -83,7 +83,7 @@ const App = () => {
         numberChange={handleNumberChange}
       />
 
-      <h2>Numbers</h2>
+      <h3>Numbers</h3>
 
       <Persons persons={personsToShow}/>
     </div>
