@@ -60,6 +60,8 @@ const App = () => {
     }
   }
 
+  const personsToShow = newFilter ? filteredPersons : persons
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -85,7 +87,7 @@ const App = () => {
 
       <table>
         <tbody>
-          {persons.map(person => {
+          {personsToShow.map(person => {
             return (
               <tr key={person.name}>
                 <td>{person.name}</td>
