@@ -13,7 +13,7 @@ const App = () => {
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  const [newFilter, setNewFilter] = useState('')
+  const [filter, setFilter] = useState('')
   const [filteredPersons, setFilteredPersons] = useState([])
 
   const isNameInPersons = (name) => {
@@ -39,6 +39,7 @@ const App = () => {
         setPersons(persons.concat(personObject))
         setNewName('')
         setNewNumber('')
+        setFilter('')
       }
     }
   }
@@ -52,7 +53,7 @@ const App = () => {
   }
 
   const handleFilterChange = (e) => {
-    setNewFilter(e.target.value)
+    setFilter(e.target.value)
 
     if (e.target.value) {
       setFilteredPersons(persons.filter(person =>
@@ -64,13 +65,13 @@ const App = () => {
     }
   }
 
-  const personsToShow = newFilter ? filteredPersons : persons
+  const personsToShow = filter ? filteredPersons : persons
 
   return (
     <div>
       <h2>Phonebook</h2>
 
-      <Filter value={newFilter} onChange={handleFilterChange}/>
+      <Filter value={filter} onChange={handleFilterChange}/>
 
       <h2>Add a new</h2>
 
