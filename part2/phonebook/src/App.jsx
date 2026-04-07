@@ -43,9 +43,28 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const handleFilterChange = (e) => {
+    setNewFilter(e.target.value)
+
+    if (e.target.value) {
+      setFilteredPersons(persons.filter(person =>
+        person.name.toLowerCase().includes(e.target.value.toLowerCase())
+      ))
+    }
+    else {
+      setFilteredPersons([])
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <div>
+        filter shown with <input value={newFilter} onChange={handleFilterChange}/>
+      </div>
+
+      <h2>add a new</h2>
 
       <form onSubmit={addPerson}>
         <div>
