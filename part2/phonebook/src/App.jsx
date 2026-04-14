@@ -80,8 +80,19 @@ const App = () => {
   }
 
   const deletePerson = (person) => {
-    console.log('person', person);      //delete
-    confirm(`Delete ${person.name}?`)
+    if (confirm(`Delete ${person.name}?`)) {
+      peopleService
+        .deletePerson(person.id)
+        .then(deletedPerson => {
+          console.log('deletedPerson', deletedPerson);
+          setPersons(persons.filter(
+              person => person.id !== deletedPerson.id
+            ))
+          })
+        .catch(error => {
+          alert(`Error deleting ${person.name}!`)
+        })
+    }
   }
 
   const personsToShow = filter ? filteredPersons : persons
