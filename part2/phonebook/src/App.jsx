@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
-import axios from 'axios'
 import peopleService from './services/people'
 
 
@@ -80,6 +79,11 @@ const App = () => {
     }
   }
 
+  const deletePerson = (person) => {
+    console.log('person', person);      //delete
+    confirm(`Delete ${person.name}?`)
+  }
+
   const personsToShow = filter ? filteredPersons : persons
 
   return (
@@ -100,7 +104,10 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Persons persons={personsToShow}/>
+      <Persons
+        persons={personsToShow}
+        onClick={deletePerson}
+      />
     </div>
   )
 }

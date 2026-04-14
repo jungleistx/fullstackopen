@@ -1,4 +1,4 @@
-const Persons = ({ persons }) => {
+const Persons = ({ persons, onClick }) => {
   return (
 	<table>
 		<tbody>
@@ -7,6 +7,7 @@ const Persons = ({ persons }) => {
 					<tr key={person.name}>
 						<td>{person.name}</td>
 						<td>{person.number}</td>
+						<td><button onClick={() => onClick(person)}>delete</button></td>
 					</tr>
 				)
 			})}
