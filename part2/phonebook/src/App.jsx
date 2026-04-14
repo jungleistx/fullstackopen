@@ -48,6 +48,9 @@ const App = () => {
             setNewNumber('')
             setFilter('')
           })
+          .catch(error =>
+            alert(`Error sending '${personObject.name}'!`)
+          )
       }
     }
   }
