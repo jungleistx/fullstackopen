@@ -88,7 +88,8 @@ const App = () => {
           setPersons(persons.filter(
               person => person.id !== deletedPerson.id
             ))
-          })
+          setFilter('')
+        })
         .catch(error => {
           alert(`Error deleting ${person.name}!`)
         })
