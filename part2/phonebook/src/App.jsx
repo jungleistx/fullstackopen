@@ -44,16 +44,16 @@ const App = () => {
           number: newNumber
         }
 
-        axios
-          .post('http://localhost:3001/persons', personObject)
-          .then(response => {
-            setPersons(persons.concat(response.data))
+        peopleService
+          .create(personObject)
+          .then(person => {
+            setPersons(persons.concat(person))
             setNewName('')
             setNewNumber('')
             setFilter('')
           })
           .catch(error =>
-            alert(`Error sending '${personObject.name}'!`)
+            alert(`Error creating ${personObject.name}!`)
           )
       }
     }
