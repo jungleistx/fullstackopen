@@ -70,10 +70,11 @@ const App = () => {
             setNewNumber('')
             setFilter('')
           })
-          .catch(error =>
+          .catch(error => {
             alert(`Error creating ${personObject.name}!`)
-          )
-      }
+            console.error(error)
+          })
+        }
     }
   }
 
@@ -110,6 +111,7 @@ const App = () => {
         })
         .catch(error => {
           alert(`Error deleting ${person.name}!`)
+          console.error(error);
         })
     }
   }
