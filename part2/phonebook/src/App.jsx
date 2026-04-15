@@ -51,7 +51,10 @@ const App = () => {
               setNewName('')
               setNewNumber('')
               setFilter('')
-              setNotification(`Updated ${updatedPerson.name}`)
+              setNotification({
+                message: `Updated ${updatedPerson.name}`,
+                type: 'success'
+              })
               setTimeout(() => {
                 setNotification(null)
               }, 3000)
@@ -75,7 +78,10 @@ const App = () => {
             setNewName('')
             setNewNumber('')
             setFilter('')
-            setNotification(`Added ${personObject.name}`)
+            setNotification({
+              message: `Added ${personObject.name}`,
+              type: 'success'
+            })
             setTimeout(() => {
               setNotification(null)
             }, 3000)
@@ -132,7 +138,10 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
-      <Notification message={notification}/>
+      <Notification
+        message={notification?.message}
+        type={notification?.type}
+      />
 
       <Filter value={filter} onChange={handleFilterChange}/>
 
