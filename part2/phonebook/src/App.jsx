@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import peopleService from './services/people'
+import Notification from './components/Notification'
 
 
 const App = () => {
@@ -11,6 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [filteredPersons, setFilteredPersons] = useState([])
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     peopleService
@@ -49,6 +51,10 @@ const App = () => {
               setNewName('')
               setNewNumber('')
               setFilter('')
+              setNotification(`Updated ${updatedPerson.name}`)
+              setTimeout(() => {
+                setNotification(null)
+              }, 3000)
             })
             .catch(error => {
               alert(`Error updating ${updatedPerson.name}!`)
@@ -69,6 +75,10 @@ const App = () => {
             setNewName('')
             setNewNumber('')
             setFilter('')
+            setNotification(`Added ${personObject.name}`)
+            setTimeout(() => {
+              setNotification(null)
+            }, 3000)
           })
           .catch(error => {
             alert(`Error creating ${personObject.name}!`)
@@ -121,6 +131,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={notification}/>
 
       <Filter value={filter} onChange={handleFilterChange}/>
 
