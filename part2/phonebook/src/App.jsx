@@ -39,10 +39,21 @@ const App = () => {
           const oldPerson = persons.find(p => p.name === newName)
           const updatedPerson = { ...oldPerson, number: newNumber}
 
-          console.log('newNumber', newNumber);
-          console.log('oldPerson', oldPerson);
-          console.log('updatedPerson', updatedPerson);
-
+          peopleService
+            .update(updatedPerson)
+            .then(newPerson => {
+              const personsWithoutOldPerson = persons.filter(p =>
+                p.id !== oldPerson.id
+              )
+              setPersons(personsWithoutOldPerson.concat(newPerson))
+              setNewName('')
+              setNewNumber('')
+              setFilter('')
+            })
+            .catch(error => {
+              alert(`Error updating ${updatedPerson.name}!`)
+              console.error(error);
+            })
         }
       }
       else {
@@ -92,7 +103,6 @@ const App = () => {
       peopleService
         .deletePerson(person.id)
         .then(deletedPerson => {
-          console.log('deletedPerson', deletedPerson);
           setPersons(persons.filter(
               person => person.id !== deletedPerson.id
             ))
