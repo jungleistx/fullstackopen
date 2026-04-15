@@ -35,7 +35,15 @@ const App = () => {
 
     if (newName && newNumber) {
       if (isNameInPersons(newName)) {
-        alert(`${newName} is already added to phonebook`)
+        if (confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+          const oldPerson = persons.find(p => p.name === newName)
+          const updatedPerson = { ...oldPerson, number: newNumber}
+
+          console.log('newNumber', newNumber);
+          console.log('oldPerson', oldPerson);
+          console.log('updatedPerson', updatedPerson);
+
+        }
       }
       else {
         const personObject = {
