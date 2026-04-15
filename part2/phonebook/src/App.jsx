@@ -21,7 +21,13 @@ const App = () => {
         setPersons(persons)
       })
       .catch(error => {
-        console.error(error);
+        setNotification({
+          message: `Error getting persons from database`,
+          type: 'error'
+        })
+        setTimeout(() => {
+          setNotification(null)
+        }, 3000)
       })
   }, [])
 
@@ -60,8 +66,13 @@ const App = () => {
               }, 3000)
             })
             .catch(error => {
-              alert(`Error updating ${updatedPerson.name}!`)
-              console.error(error);
+              setNotification({
+                message: `Error updating ${updatedPerson.name}`,
+                type: 'error'
+              })
+              setTimeout(() => {
+                setNotification(null)
+              }, 3000)
             })
         }
       }
@@ -87,8 +98,13 @@ const App = () => {
             }, 3000)
           })
           .catch(error => {
-            alert(`Error creating ${personObject.name}!`)
-            console.error(error)
+            setNotification({
+              message: `Error creating ${personObject.name}`,
+              type: 'error'
+            })
+            setTimeout(() => {
+              setNotification(null)
+            }, 3000)
           })
         }
     }
@@ -126,8 +142,13 @@ const App = () => {
           setFilter('')
         })
         .catch(error => {
-          alert(`Error deleting ${person.name}!`)
-          console.error(error);
+          setNotification({
+            message: `Error deleting ${person.name}`,
+            type: 'error'
+          })
+          setTimeout(() => {
+            setNotification(null)
+          }, 3000)
         })
     }
   }
