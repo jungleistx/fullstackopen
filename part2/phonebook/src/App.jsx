@@ -70,6 +70,7 @@ const App = () => {
                 message: `Error updating ${updatedPerson.name}`,
                 type: 'error'
               })
+              setPersons(persons.filter(p => p.id !== updatedPerson.id))
               setTimeout(() => {
                 setNotification(null)
               }, 3000)
