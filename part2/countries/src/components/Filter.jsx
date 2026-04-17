@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Filter = ({ value, onChange }) => {
   return (
 	<form>
