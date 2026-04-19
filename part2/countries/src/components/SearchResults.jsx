@@ -1,9 +1,13 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Country from "./Country"
 
 
 const SearchResults = ({ countries }) => {
 	const [openCountries, setOpenCountries] = useState([])
+
+	useEffect(() => {
+		setOpenCountries([])
+	}, [countries])
 
 	const handleShowButton = (index) => {
 		console.log('index', index);
