@@ -10,8 +10,6 @@ const SearchResults = ({ countries }) => {
 	}, [countries])
 
 	const handleShowButton = (index) => {
-		console.log('index', index);
-
 		if (openCountries.includes(index)) {
 			setOpenCountries(openCountries.filter(i => i !== index))
 		}
