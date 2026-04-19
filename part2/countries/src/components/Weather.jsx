@@ -3,8 +3,13 @@ import WeatherService from '../services/weather'
 
 
 const Weather = ({ country }) => {
-	const latitude = country.capitalInfo.latlng[0]
-	const longitude = country.capitalInfo.latlng[1]
+	const latitude =
+			country.capitalInfo?.latlng?.[0]
+		??	country.latlng?.[0]
+	const longitude =
+			country.capitalInfo?.latlng?.[1]
+		??	country.latlng?.[1]
+
 	const [weather, setWeather] = useState(null)
 	const [iconUrl, setIconUrl] = useState(null)
 
