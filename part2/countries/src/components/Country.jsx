@@ -1,6 +1,7 @@
-const Country = ({ country }) => {
-	console.log('Country', country);
+import Weather from "./Weather"
 
+
+const Country = ({ country }) => {
   return (
 	<>
 	<h1>{country.name.common}</h1>
@@ -15,6 +16,8 @@ const Country = ({ country }) => {
 	</ul>
 
 	<img width="200px" src={country.flags.png} alt={country.flags.alt} />
+
+	<Weather country={country}/>
 	</>
   )
 }
