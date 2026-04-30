@@ -27,9 +27,26 @@ let notes = [
     }
 ]
 
+
 app.get('/api/persons', (request, response) => {
 	response.json(notes)
 })
+
+
+app.get('/api/persons/:id', (request, response) => {
+  const id = request.params.id
+  const note = notes.find(note => note.id === id)
+
+  if (note) {
+    response.json(note)
+  }
+  else {
+    return response.status(404).json({
+      error: 'id not found'
+    })
+  }
+})
+
 
 app.get('/info', (request, response) => {
 	response.send(`
@@ -37,6 +54,7 @@ app.get('/info', (request, response) => {
 		<p>${new Date().toString()}</p>
 		`)
 })
+
 
 const PORT = 3001
 app.listen(PORT, () => {
