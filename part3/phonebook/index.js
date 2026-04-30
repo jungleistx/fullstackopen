@@ -4,7 +4,7 @@ const app = express()
 
 app.use(express.json())
 
-let notes = [
+let persons = [
     {
       "id": "1",
       "name": "Arto Hellas",
@@ -29,16 +29,16 @@ let notes = [
 
 
 app.get('/api/persons', (request, response) => {
-	response.json(notes)
+	response.json(persons)
 })
 
 
 app.get('/api/persons/:id', (request, response) => {
   const id = request.params.id
-  const note = notes.find(note => note.id === id)
+  const person = persons.find(person => person.id === id)
 
-  if (note) {
-    response.json(note)
+  if (person) {
+    response.json(person)
   }
   else {
     return response.status(404).json({
@@ -50,7 +50,7 @@ app.get('/api/persons/:id', (request, response) => {
 
 app.delete('/api/persons/:id', (request, response) => {
   const id = request.params.id
-  notes = notes.filter(note => note.id !== id)
+  persons = persons.filter(person => person.id !== id)
 
   response.status(204).end()
 })
@@ -58,7 +58,7 @@ app.delete('/api/persons/:id', (request, response) => {
 
 app.get('/info', (request, response) => {
 	response.send(`
-		<p>Phonebook has info for ${notes.length} people</p>
+		<p>Phonebook has info for ${persons.length} people</p>
 		<p>${new Date().toString()}</p>
 		`)
 })
