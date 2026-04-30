@@ -28,6 +28,40 @@ let persons = [
 ]
 
 
+const generateIdForPerson = () => {
+  const personIds = persons.map(p => p.id)
+  const max = Number.MAX_SAFE_INTEGER
+
+  while (true) {
+    const number = Math.floor(Math.random() * max);
+
+    if (!personIds.includes(number)) {
+      return number
+    }
+  }
+}
+
+
+app.post('/api/persons/', (request, response) => {
+  const body = request.body
+
+  if (!body.name || !body.number) {
+    return response.status(400).json({
+      error: 'content missing'
+    })
+  }
+
+  const person = {
+    id: generateIdForPerson(),
+    name: body.name,
+    number: body.number,
+  }
+
+  persons = persons.concat(person)
+  response.json(person)
+})
+
+
 app.get('/api/persons', (request, response) => {
 	response.json(persons)
 })
