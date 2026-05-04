@@ -48,7 +48,7 @@ const generateIdForPerson = () => {
     const number = Math.floor(Math.random() * max);
 
     if (!personIds.includes(number)) {
-      return number
+      return String(number)
     }
   }
 }
