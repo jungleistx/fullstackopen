@@ -45,10 +45,10 @@ const generateIdForPerson = () => {
   const max = Number.MAX_SAFE_INTEGER
 
   while (true) {
-    const number = Math.floor(Math.random() * max);
+    const number = String(Math.floor(Math.random() * max))
 
     if (!personIds.includes(number)) {
-      return String(number)
+      return number
     }
   }
 }
