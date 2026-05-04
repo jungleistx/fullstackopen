@@ -2,10 +2,10 @@ const PersonForm = (p) => {
   return (
 	<form onSubmit={p.onSubmit}>
 		<div>
-			name: <input value={p.name} onChange={p.nameChange}/>
+			name: <input name='name' value={p.name} onChange={p.nameChange}/>
 		</div>
 		<div>
-			number: <input value={p.number} onChange={p.numberChange}/>
+			number: <input name='number' value={p.number} onChange={p.numberChange}/>
 		</div>
 		<div>
 			<button type="submit">add</button>
