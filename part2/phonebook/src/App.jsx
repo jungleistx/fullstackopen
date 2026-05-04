@@ -136,10 +136,8 @@ const App = () => {
     if (confirm(`Delete ${person.name}?`)) {
       peopleService
         .deletePerson(person.id)
-        .then(deletedPerson => {
-          setPersons(persons.filter(
-              person => person.id !== deletedPerson.id
-            ))
+        .then(() => {
+          setPersons(persons.filter(p => p.id !== person.id))
           setFilter('')
         })
         .catch(error => {
