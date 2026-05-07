@@ -15,6 +15,10 @@ const url =  `mongodb+srv://fso_phonebookuser:${password}@cluster0.85bumku.mongo
 
 mongoose.set('strictQuery',false)
 mongoose.connect(url, { family: 4 })
+  .catch(error => {
+	console.log(`${error.message}`)
+	process.exit(1)
+  })
 
 const personSchema = new mongoose.Schema({
 	name: String,
