@@ -4,7 +4,9 @@ const mongoose = require('mongoose')
 const argvLen = process.argv.length
 
 if (argvLen < 3) {
-  console.log('give password as argument')
+  console.log('usage:');
+  console.log('print phonebook: node mongo.js <password>');
+  console.log('add person: node mongo.js <password> <name> <number>');
   process.exit(1)
 }
 
