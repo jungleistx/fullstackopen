@@ -90,17 +90,15 @@ app.get('/api/persons', (request, response) => {
 
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = request.params.id
-  const person = persons.find(person => person.id === id)
-
-  if (person) {
-    response.json(person)
-  }
-  else {
-    return response.status(404).json({
-      error: 'id not found'
+  Person.findById(request.params.id)
+    .then(person => {
+      response.json(person)
     })
-  }
+    .catch(error => {
+      return response.status(404).json({
+        error: 'id not found'
+      })
+    })
 })
 
 
