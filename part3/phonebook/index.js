@@ -2,6 +2,7 @@ http = require('http')
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
+const Person = require('./models/people')
 
 app.use(express.static('dist'))
 app.use(express.json())
@@ -82,7 +83,9 @@ app.post('/api/persons/', (request, response) => {
 
 
 app.get('/api/persons', (request, response) => {
-	response.json(persons)
+  Person.find({}).then(persons => {
+    response.json(persons)
+  })
 })
 
 
