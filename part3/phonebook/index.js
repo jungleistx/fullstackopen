@@ -87,7 +87,7 @@ app.get('/api/persons', (request, response, next) => {
 })
 
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id)
     .then(person => {
       if (person) {
@@ -97,10 +97,7 @@ app.get('/api/persons/:id', (request, response) => {
         response.status(404).end()
       }
     })
-    .catch(error => {
-      console.log(error);
-      return response.status(500).end()
-    })
+    .catch(error => next(error))
 })
 
 
