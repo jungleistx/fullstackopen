@@ -56,7 +56,7 @@ const generateIdForPerson = () => {
 }
 
 
-app.post('/api/persons/', (request, response) => {
+app.post('/api/persons/', (request, response, next) => {
   const body = request.body
 
   if (!body.name || !body.number) {
@@ -74,9 +74,7 @@ app.post('/api/persons/', (request, response) => {
     .then(savedPerson => {
       response.json(savedPerson)
     })
-    .catch(error => {
-      response.status(500).json({ error: 'saving person failed' })
-    })
+    .catch(error => next(error))
 })
 
 
