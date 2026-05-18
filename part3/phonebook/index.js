@@ -122,11 +122,25 @@ app.get('/info', (request, response, next) => {
 })
 
 
-const unKnownEndpoint = (request, response) => {
+const unknownEndpoint = (request, response) => {
   response.status(404).json({ error: 'unknown endpoint' })
 }
 
-app.use(unKnownEndpoint)
+app.use(unknownEndpoint)
+
+
+const errorHandler = (error, request, response, next) => {
+  console.error('error.name: ', error.name)
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).json({ error: 'malformatted id' })
+  }
+
+  next(error)
+}
+
+app.use(errorHandler)
 
 
 const PORT = process.env.PORT || 3001
