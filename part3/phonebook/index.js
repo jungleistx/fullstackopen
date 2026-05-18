@@ -110,6 +110,27 @@ app.delete('/api/persons/:id', (request, response, next) => {
 })
 
 
+app.put('/api/persons/:id', (request, response, next) => {
+  Person.findById(request.params.id)
+    .then(person => {
+      if (!person) {
+        return response.status(404).end()
+      }
+
+      // update person with new number
+      person.number = request.body.number
+
+      return person.save()
+        .then((updatedPerson) => {
+          response.json(updatedPerson)
+        })
+        .catch(error => next(error))
+
+    })
+    .catch(error => next(error))
+})
+
+
 app.get('/info', (request, response, next) => {
   Person.countDocuments({})
     .then(count => {
