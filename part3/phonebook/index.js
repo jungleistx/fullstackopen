@@ -112,15 +112,15 @@ app.delete('/api/persons/:id', (request, response) => {
 })
 
 
-app.get('/info', (request, response) => {
-  Person.countDocuments({}).then(count => {
-    response.send(`
-      <p>Phonebook has info for ${count} people</p>
-      <p>${new Date().toString()}</p>
-    `)
-  }).catch(error => {
-    response.status(500).json({ error: 'database error' })
-  })
+app.get('/info', (request, response, next) => {
+  Person.countDocuments({})
+    .then(count => {
+      response.send(`
+        <p>Phonebook has info for ${count} people</p>
+        <p>${new Date().toString()}</p>
+      `)
+    })
+    .catch(error => next(error))
 })
 
 
