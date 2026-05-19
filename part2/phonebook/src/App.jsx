@@ -100,12 +100,12 @@ const App = () => {
           })
           .catch(error => {
             setNotification({
-              message: `Error creating ${personObject.name}`,
+              message: `${error.response.data.error}`,
               type: 'error'
             })
             setTimeout(() => {
               setNotification(null)
-            }, 3000)
+            }, 7000)
           })
         }
     }
