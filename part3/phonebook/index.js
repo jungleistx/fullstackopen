@@ -1,4 +1,3 @@
-http = require('http')
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
@@ -16,44 +15,6 @@ morgan.token('person', (req) => {
 app.use(morgan(
   ':method :url :status :res[content-length] - :response-time ms :person'
 ))
-
-
-let persons = [
-    {
-      "id": "1",
-      "name": "Arto Hellas",
-      "number": "040-123456"
-    },
-    {
-      "id": "2",
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523"
-    },
-    {
-      "id": "3",
-      "name": "Dan Abramov",
-      "number": "12-43-234345"
-    },
-    {
-      "id": "4",
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122"
-    }
-]
-
-
-const generateIdForPerson = () => {
-  const personIds = persons.map(p => p.id)
-  const max = Number.MAX_SAFE_INTEGER
-
-  while (true) {
-    const number = String(Math.floor(Math.random() * max))
-
-    if (!personIds.includes(number)) {
-      return number
-    }
-  }
-}
 
 
 app.post('/api/persons/', (request, response, next) => {
@@ -103,7 +64,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -158,7 +119,7 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).json({ error: 'malformatted id' })
   }
   else if (error.name === 'ValidationError') {
-	  return response.status(400).json({ error: error.message })
+    return response.status(400).json({ error: error.message })
   }
 
   next(error)
@@ -169,5 +130,5 @@ app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
-	console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`)
 })
