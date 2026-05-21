@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const logger = require('./utils/logger')
 const Blog = require('./models/blog')
 require('dotenv').config()
-
+const blogsRouter = require('./controllers/blogs')
 const app = express()
 
 
@@ -14,19 +14,8 @@ app.use(express.json())
 
 logger.info('connecting to', mongoUrl)
 
-app.get('/api/blogs', (request, response) => {
-  Blog.find({}).then((blogs) => {
-    response.json(blogs)
-  })
-})
+app.use('/api/blogs', blogsRouter)
 
-app.post('/api/blogs', (request, response) => {
-  const blog = new Blog(request.body)
-
-  blog.save().then((result) => {
-    response.status(201).json(result)
-  })
-})
 
 const PORT = process.env.PORT || 3003
 app.listen(PORT, () => {
