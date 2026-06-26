@@ -11,10 +11,10 @@ Possibility to POST and GET blogs.
   - ```npm start```
 
 #### Testing with Postman
-- Get all blogs
+- Get all blogs:
 GET http://localhost:3003/api/blogs
 
-- Post new blog
+- Post new blog:
 POST http://localhost:3003/api/blogs
 body { "title", "author", "url", "likes" }
 
