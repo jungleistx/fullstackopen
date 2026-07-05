@@ -37,6 +37,12 @@ const blogsInDb = async () => {
 }
 
 
+const resetDb = async () => {
+  await Blog.deleteMany({})
+  await Blog.insertMany(initialBlogs)
+}
+
+
 module.exports = {
-  initialBlogs, nonExistingId, blogsInDb
+  initialBlogs, nonExistingId, blogsInDb, resetDb
 }
