@@ -53,6 +53,34 @@ describe('adding new blog', () => {
   })
 
 
+  test ('fails with missing title property', async () => {
+    const newBlog = {
+      author: 'Test Author',
+      url: 'www.missingtitle.com',
+      likes: 15
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  })
+
+
+  test ('fails with missing url property', async () => {
+    const newBlog = {
+      title: 'Blog missing url',
+      author: 'Test Author',
+      likes: 10
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  })
+
+
   after(async () => {
     await mongoose.connection.close()
   })
