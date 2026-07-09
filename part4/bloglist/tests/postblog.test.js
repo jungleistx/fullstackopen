@@ -36,7 +36,7 @@ describe('adding new blog', () => {
   })
 
 
-  test ('missing likes property defaults to 0', async () => {
+  test('missing likes property defaults to 0', async () => {
     const newBlog = {
       title: 'Blog missing likes',
       author: 'Peter Addington',
@@ -53,7 +53,7 @@ describe('adding new blog', () => {
   })
 
 
-  test ('fails with missing title property', async () => {
+  test('fails with missing title property', async () => {
     const newBlog = {
       author: 'Test Author',
       url: 'www.missingtitle.com',
@@ -67,7 +67,7 @@ describe('adding new blog', () => {
   })
 
 
-  test ('fails with missing url property', async () => {
+  test('fails with missing url property', async () => {
     const newBlog = {
       title: 'Blog missing url',
       author: 'Test Author',
