@@ -13,8 +13,9 @@ describe('adding new user', () => {
     await resetUserDb()
   })
 
+  test('succeeds with valid data', async () => {
+    const usersAtStart = await usersInDb()
 
-  test.only('succeeds with valid data', async () => {
     const newUser = {
       username: 'testuser',
       password: 'validpw'
@@ -27,14 +28,40 @@ describe('adding new user', () => {
       .expect('Content-Type', /application\/json/)
 
     const usersAtEnd = await usersInDb()
-
-    console.log('usersAtEnd', usersAtEnd);
-
-    assert.strictEqual(usersAtEnd.length, 2)
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length + 1)
 
     const usernames = usersAtEnd.map(u => u.username)
     assert(usernames.includes('testuser'))
   })
+
+  test('fails when password too short', async () => {
+    const usersAtStart = await usersInDb()
+
+    const result = await api
+      .post('/api/users')
+      .send({ username: 'testuser', password: 'ab' })
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await usersInDb()
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+    assert(result.body.error.includes('password must be atleast 3 characters'))
+  })
+
+  test('fails when username too short', async () => {
+    const usersAtStart = await usersInDb()
+
+    const result = await api
+      .post('/api/users')
+      .send({ username: 'te', password: 'abcd' })
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await usersInDb()
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+    assert(result.body.error.includes('validation failed: username'))
+  })
+
 
   after(async () => {
     await mongoose.connection.close()
