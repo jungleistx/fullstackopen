@@ -103,6 +103,20 @@ describe('adding new user', () => {
     assert.strictEqual(usersAtEnd.length, usersAtStart.length)
   })
 
+  test('fails when username taken', async () => {
+    const usersAtStart = await usersInDb()
+
+    const result = await api
+      .post('/api/users')
+      .send({ username: 'root', password: 'validpw' })
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await usersInDb()
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+    assert(result.body.error.includes('expected `username` to be unique'))
+  })
+
 
   after(async () => {
     await mongoose.connection.close()
