@@ -62,6 +62,47 @@ describe('adding new user', () => {
     assert(result.body.error.includes('validation failed: username'))
   })
 
+  test('fails when username not sent', async () => {
+    const usersAtStart = await usersInDb()
+
+    const result = await api
+      .post('/api/users')
+      .send({ name: 'Jack Tester', password: 'valid' })
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await usersInDb()
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+    assert(result.body.error.includes('`username` is required'))
+  })
+
+  test('fails when password not sent', async () => {
+    const usersAtStart = await usersInDb()
+
+    const result = await api
+      .post('/api/users')
+      .send({ name: 'Jack Tester', username: 'randomguy' })
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await usersInDb()
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+    assert(result.body.error.includes('password must be atleast'))
+  })
+
+  test('fails when empty body sent', async () => {
+    const usersAtStart = await usersInDb()
+
+    await api
+      .post('/api/users')
+      .send({})
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await usersInDb()
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+  })
+
 
   after(async () => {
     await mongoose.connection.close()
