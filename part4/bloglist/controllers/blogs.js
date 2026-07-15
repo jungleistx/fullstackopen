@@ -1,5 +1,13 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
+
+
+const randomUser = async () => {
+  const users = await User.find({})
+  const randomIndex = Math.floor(Math.random() * users.length)
+  return users[randomIndex]
+}
 
 
 blogsRouter.get('/', async (request, response) => {
@@ -10,12 +18,17 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
+  const newUser = await randomUser()
+  if (!newUser) {
+    return response.status(400).json({ error: 'no users in database' })
+  }
 
   const blog = new Blog({
     title: body.title,
     author: body.author,
     url: body.url,
     likes: body.likes || 0,
+    user: newUser
   })
 
   const savedBlog = await blog.save()
