@@ -1,5 +1,5 @@
 const assert = require('node:assert')
-const { test, after, beforeEach, describe } = require('node:test')
+const { test, after, before, describe } = require('node:test')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
@@ -10,7 +10,7 @@ const api = supertest(app)
 
 describe('login user', () => {
 
-  beforeEach(async () => {
+  before(async () => {
     await resetUserDb()
   })
 
