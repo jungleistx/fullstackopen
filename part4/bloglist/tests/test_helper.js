@@ -2,6 +2,7 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 const supertest = require('supertest')
+const jwt = require('jsonwebtoken')
 const app = require('../app')
 
 const api = supertest(app)
@@ -74,6 +75,13 @@ const getRootToken = async () => {
 }
 
 
+const getTokenUserId = async (token) => {
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+
+  return decodedToken.id || null
+}
+
+
 module.exports = {
   initialBlogs,
   nonExistingId,
@@ -81,5 +89,6 @@ module.exports = {
   resetDb,
   resetUserDb,
   usersInDb,
-  getRootToken
+  getRootToken,
+  getTokenUserId
 }
