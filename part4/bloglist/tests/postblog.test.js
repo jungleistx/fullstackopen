@@ -101,6 +101,51 @@ describe('adding new blog', () => {
   })
 
 
+  test('fails with invalid token', async () => {
+    const newBlog = {
+      title: 'Blog to fail',
+      author: 'Peter Nottington',
+      url: 'www.failblog.com',
+      likes: 10
+    }
+    const invalidToken = 'randominvalidstring'
+
+    const result = await api
+      .post('/api/blogs')
+      .set('Authorization', `Bearer ${invalidToken}`)
+      .send(newBlog)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+    assert(result.body.error.includes('token invalid'))
+    assert(!result.body.user)
+
+    const blogsAtEnd = await blogsInDb()
+    assert.strictEqual(blogsAtEnd.length, initialBlogs.length)
+  })
+
+
+  test('fails when posting to wrong url', async () => {
+    const newBlog = {
+      title: 'Blog to disappear',
+      author: 'Peter Missington',
+      url: 'www.lostblog.com',
+      likes: 4040
+    }
+
+    const result = await api
+      .post('/api/wrongurl')
+      .set('Authorization', `Bearer ${token}`)
+      .send(newBlog)
+      .expect(404)
+
+    assert(result.body.error.includes('unknown endpoint'))
+
+    const blogsAtEnd = await blogsInDb()
+    assert.strictEqual(blogsAtEnd.length, initialBlogs.length)
+  })
+
+
   after(async () => {
     await mongoose.connection.close()
   })
