@@ -1,13 +1,22 @@
 const assert = require('node:assert')
-const { test, after, beforeEach, describe } = require('node:test')
+const { test, after, beforeEach, before, describe } = require('node:test')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
-const { resetDb, blogsInDb, initialBlogs } = require('./test_helper')
+const { resetDb, blogsInDb, initialBlogs, resetUserDb, getRootToken, getTokenUserId } = require('./test_helper')
 
 const api = supertest(app)
 
+let token = null
+let userId = null
+
 describe('adding new blog', () => {
+
+  before(async () => {
+    await resetUserDb()
+    token = await getRootToken()
+    userId = await getTokenUserId(token)
+  })
 
   beforeEach(async () => {
     await resetDb()
@@ -16,14 +25,15 @@ describe('adding new blog', () => {
 
   test('succeeds with valid data', async () => {
     const newBlog = {
-      title: 'Blog to add, trying comma',
+      title: 'Blog to add',
       author: 'Peter Addington',
       url: 'www.newblog.com',
       likes: 1001
     }
 
-    await api
+    const result = await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -32,7 +42,9 @@ describe('adding new blog', () => {
     assert.strictEqual(blogsAtEnd.length, initialBlogs.length + 1)
 
     const titles = blogsAtEnd.map(b => b.title)
-    assert(titles.includes('Blog to add, trying comma'))
+    assert(titles.includes('Blog to add'))
+
+    assert.strictEqual(userId, result.body.user)
   })
 
 
@@ -45,11 +57,13 @@ describe('adding new blog', () => {
 
     const response = await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
     assert.strictEqual(response.body.likes, 0)
+    assert.strictEqual(response.body.user, userId)
   })
 
 
@@ -60,10 +74,13 @@ describe('adding new blog', () => {
       likes: 15
     }
 
-    await api
+    const result = await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
       .expect(400)
+
+    assert(result.body.error.includes('Path `title` is required'))
   })
 
 
@@ -74,10 +91,13 @@ describe('adding new blog', () => {
       likes: 10
     }
 
-    await api
+    const result = await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
       .expect(400)
+
+    assert(result.body.error.includes('Path `url` is required'))
   })
 
 
