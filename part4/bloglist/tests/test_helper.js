@@ -56,20 +56,26 @@ const resetDb = async () => {
 }
 
 
-const resetUserDb = async () => {
-  await User.deleteMany({})
-
-  const passwordHash = await bcrypt.hash('mysterypw', 10)
-  const user = new User({ username: 'root', passwordHash })
+const createUser = async (username, pw) => {
+  const passwordHash = await bcrypt.hash(pw, 10)
+  const user = new User({ username: username, passwordHash })
 
   await user.save()
+
+  return user
 }
 
 
-const getRootToken = async () => {
+const resetUserDb = async () => {
+  await User.deleteMany({})
+  await createUser('root', 'mysterypw')
+}
+
+
+const getToken = async (username, pw) => {
   const result = await api
     .post('/api/login')
-    .send({ username: 'root', password: 'mysterypw' })
+    .send({ username: username, password: pw })
 
   return result.body.token || null
 }
@@ -82,6 +88,25 @@ const getTokenUserId = async (token) => {
 }
 
 
+const postNewBLog = async (token) => {
+  const newBlog = {
+    title: 'Blog from test',
+    author: 'Peter Teston',
+    url: 'www.testblog.com',
+    likes: 247
+  }
+
+  const result = await api
+    .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  return result.body || null
+}
+
+
 module.exports = {
   initialBlogs,
   nonExistingId,
@@ -89,6 +114,8 @@ module.exports = {
   resetDb,
   resetUserDb,
   usersInDb,
-  getRootToken,
-  getTokenUserId
+  getToken,
+  getTokenUserId,
+  postNewBLog,
+  createUser
 }
