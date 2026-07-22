@@ -3,7 +3,7 @@ const { test, after, beforeEach, before, describe } = require('node:test')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
-const { resetDb, blogsInDb, initialBlogs, resetUserDb, getRootToken, getTokenUserId } = require('./test_helper')
+const { resetDb, blogsInDb, initialBlogs, resetUserDb, getTokenUserId, getToken } = require('./test_helper')
 
 const api = supertest(app)
 
@@ -14,7 +14,7 @@ describe('adding new blog', () => {
 
   before(async () => {
     await resetUserDb()
-    token = await getRootToken()
+    token = await getToken('root', 'mysterypw')
     userId = await getTokenUserId(token)
   })
 
