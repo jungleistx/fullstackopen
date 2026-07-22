@@ -14,20 +14,24 @@ describe('deleting a blog', () => {
   })
 
 
-  test('succeeds 204 with valid id', async () => {
+  test.only('succeeds 204 with valid id', async () => {
     const blogsAtStart = await blogsInDb()
-    const blogToDelete = blogsAtStart[0]
+
 
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
+      .set('Authorization', `Bearer ${tokenForDelete}`)
       .expect(204)
 
     const blogsAtEnd = await blogsInDb()
 
     const ids = blogsAtEnd.map(b => b.id)
-    assert(!ids.includes(blogToDelete.id))
 
-    assert.strictEqual(blogsAtEnd.length, initialBlogs.length - 1)
+    assert(!ids.includes(blogToDelete.id))
+    assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1)
+
+    const user = await User.findById(userId)
+    assert(!user.blogs.includes(blogToDelete.id))
   })
 
 
