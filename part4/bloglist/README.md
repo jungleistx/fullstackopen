@@ -3,7 +3,9 @@
 ---
 ### <ins> bloglist </ins>
 - backend for blogs.
-Possibility to POST, DELETE, PUT and GET blogs.
+  - POST, DELETE, PUT and GET blogs
+  - POST and GET users
+  - POST login
 
 #### How to run
   - ```npm install```
