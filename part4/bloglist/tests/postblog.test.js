@@ -146,6 +146,27 @@ describe('adding new blog', () => {
   })
 
 
+  test('fails when no token provided', async () => {
+    const newBlog = {
+      title: 'Blog to add',
+      author: 'Peter Addington',
+      url: 'www.newblog.com',
+      likes: 1001
+    }
+
+    const result = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await blogsInDb()
+
+    assert.strictEqual(blogsAtEnd.length, initialBlogs.length)
+    assert(result.body.error.includes('token invalid'))
+  })
+
+
   after(async () => {
     await mongoose.connection.close()
   })
