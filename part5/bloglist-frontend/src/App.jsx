@@ -4,12 +4,14 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState({})
 
 
   useEffect(() => {
@@ -42,13 +44,23 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      setErrorMessage({
+        message: 'login successfull',
+        type: 'success'
+      })
+      setTimeout(() => {
+        setErrorMessage({})
+      }, 5000)
     }
     catch {
       console.log('wrong credentials');
-      // setErrorMessage('wrong credentials')
-      // setTimeout(() => {
-      //   setErrorMessage(null)
-      // }, 5000)
+      setErrorMessage({
+        message: 'wrong credentials',
+        type: 'error'
+      })
+      setTimeout(() => {
+        setErrorMessage({})
+      }, 5000)
     }
   }
 
@@ -62,8 +74,16 @@ const App = () => {
 
 
   const addBlog = async (blogObject) => {
+    console.log('blogObject', blogObject);
     const returnedBlog = await blogService.create(blogObject)
     setBlogs(blogs.concat(returnedBlog))
+    setErrorMessage({
+      message: `a new blog added`,
+      type: 'success'
+    })
+    setTimeout(() => {
+      setErrorMessage({})
+    }, 5000)
   }
 
 
@@ -77,6 +97,11 @@ const App = () => {
 
   return (
     <div>
+      <Notification
+        message={errorMessage.message}
+        type={errorMessage.type}
+      />
+
       {user &&
         <>
           <h2>blogs</h2>
