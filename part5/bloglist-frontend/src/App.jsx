@@ -6,12 +6,13 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState({})
+  const [notificationMessage, setNotificationMessage] = useState({})
 
 
   useEffect(() => {
@@ -44,22 +45,22 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-      setErrorMessage({
+      setNotificationMessage({
         message: 'login successfull',
         type: 'success'
       })
       setTimeout(() => {
-        setErrorMessage({})
+        setNotificationMessage({})
       }, 5000)
     }
     catch {
       console.log('wrong credentials');
-      setErrorMessage({
+      setNotificationMessage({
         message: 'wrong credentials',
         type: 'error'
       })
       setTimeout(() => {
-        setErrorMessage({})
+        setNotificationMessage({})
       }, 5000)
     }
   }
@@ -77,12 +78,12 @@ const App = () => {
     console.log('blogObject', blogObject);
     const returnedBlog = await blogService.create(blogObject)
     setBlogs(blogs.concat(returnedBlog))
-    setErrorMessage({
+    setNotificationMessage({
       message: `a new blog added`,
       type: 'success'
     })
     setTimeout(() => {
-      setErrorMessage({})
+      setNotificationMessage({})
     }, 5000)
   }
 
@@ -98,8 +99,8 @@ const App = () => {
   return (
     <div>
       <Notification
-        message={errorMessage.message}
-        type={errorMessage.type}
+        message={notificationMessage.message}
+        type={notificationMessage.type}
       />
 
       {user &&
