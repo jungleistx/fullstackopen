@@ -119,16 +119,13 @@ const App = () => {
       }
 
       {!user &&
-        <>
-          <h2>log in to the application</h2>
-          <LoginForm
-            onSubmit={handleLogin}
-            username={username}
-            usernameChange={handleUsernameChange}
-            password={password}
-            passwordChange={handlePasswordChange}
-          />
-        </>
+        <LoginForm
+          onSubmit={handleLogin}
+          username={username}
+          usernameChange={handleUsernameChange}
+          password={password}
+          passwordChange={handlePasswordChange}
+        />
       }
     </div>
   )
