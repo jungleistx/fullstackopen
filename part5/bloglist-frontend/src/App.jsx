@@ -17,6 +17,7 @@ const App = () => {
 
   const blogFormRef = useRef()
 
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -76,12 +77,11 @@ const App = () => {
   }
 
 
-  const addBlog = async (blogObject) => {
-    const returnedBlog = await blogService.create(blogObject)
-    setBlogs(blogs.concat(returnedBlog))
+  const addBlog = async (newBlog) => {
+    setBlogs(blogs.concat(newBlog))
     blogFormRef.current.toggleVisibility()
     setNotificationMessage({
-      message: `a new blog ${blogObject.title} by ${blogObject.author} added`,
+      message: `a new blog ${newBlog.title} by ${newBlog.author} added`,
       type: 'success'
     })
     setTimeout(() => {
@@ -114,7 +114,7 @@ const App = () => {
 
           <Togglable buttonLabel="create new blog" ref={blogFormRef}>
             <BlogForm
-              createBlog={addBlog}
+              concatNewBlog={addBlog}
             />
           </Togglable>
 
