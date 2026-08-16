@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
@@ -11,8 +10,6 @@ import Togglable from './components/Togglable'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [notificationMessage, setNotificationMessage] = useState({})
 
   const blogFormRef = useRef()
@@ -35,44 +32,31 @@ const App = () => {
   }, [])
 
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
+  const handleLogin = (loggedUser) => {
+    setUser(loggedUser)
+    setNotificationMessage({
+      message: 'login successfull',
+      type: 'success'
+    })
+    setTimeout(() => {
+      setNotificationMessage({})
+    }, 5000)
+  }
 
-    try {
-      const user = await loginService.login({ username, password })
-      console.log('user in handlelogin', user);
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
-      blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
-      setNotificationMessage({
-        message: 'login successfull',
-        type: 'success'
-      })
-      setTimeout(() => {
-        setNotificationMessage({})
-      }, 5000)
-    }
-    catch {
-      console.log('wrong credentials');
-      setNotificationMessage({
-        message: 'wrong credentials',
-        type: 'error'
-      })
-      setTimeout(() => {
-        setNotificationMessage({})
-      }, 5000)
-    }
+
+  const failedLogin = () => {
+    setNotificationMessage({
+      message: 'wrong credentials',
+      type: 'error'
+    })
+    setTimeout(() => {
+      setNotificationMessage({})
+    }, 5000)
   }
 
 
   const handleLogout = () => {
       setUser(null)
-      setUsername('')
-      setPassword('')
       window.localStorage.removeItem('loggedBlogappUser')
   }
 
@@ -89,14 +73,6 @@ const App = () => {
     }, 5000)
   }
 
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value)
-  }
-
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value)
-  }
 
   return (
     <div>
@@ -126,11 +102,8 @@ const App = () => {
 
       {!user &&
         <LoginForm
-          onSubmit={handleLogin}
-          username={username}
-          usernameChange={handleUsernameChange}
-          password={password}
-          passwordChange={handlePasswordChange}
+          setUser={handleLogin}
+          failedLogin={failedLogin}
         />
       }
     </div>
