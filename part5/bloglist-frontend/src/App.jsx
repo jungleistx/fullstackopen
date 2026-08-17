@@ -74,6 +74,29 @@ const App = () => {
   }
 
 
+  const updateBlogLike = async (blogToUpdate) => {
+    const updatedBlog = {
+      ...blogToUpdate,
+      likes: blogToUpdate.likes + 1,
+      user: blogToUpdate.user.id
+    }
+
+    try {
+      const returnedBlog = await blogService.update(updatedBlog)
+      setBlogs(blogs.map(b => b.id === returnedBlog.id ? returnedBlog : b))
+    }
+    catch {
+      setNotificationMessage({
+        message: 'liked but not registered',
+        type: 'error'
+      })
+      setTimeout(() => {
+        setNotificationMessage({})
+      }, 5000)
+    }
+  }
+
+
   return (
     <div>
       <Notification
@@ -95,7 +118,7 @@ const App = () => {
           </Togglable>
 
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} updateLike={updateBlogLike}/>
           )}
         </>
       }
