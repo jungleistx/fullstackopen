@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 
-const Blog = ({ blog, updateLike }) => {
+const Blog = ({ blog, updateLike, user, deleteBlog }) => {
   const [isShown, setIsShown] = useState(false)
 
   const blogStyle = {
@@ -12,10 +12,22 @@ const Blog = ({ blog, updateLike }) => {
     marginBottom: 5
   }
 
+  const deleteStyle = {
+    background: 'red',
+    border: 'solid',
+    borderWidth: 1,
+    margin: 5,
+  }
+
   const buttonText = isShown ? 'hide' : 'view'
+  const showDelete = user.username === blog.user.username ? true : false
 
   const addLike = () => {
     updateLike(blog)
+  }
+
+  const clickDelete = async () => {
+    deleteBlog(blog)
   }
 
 
@@ -41,6 +53,11 @@ const Blog = ({ blog, updateLike }) => {
             <button onClick={addLike}>like</button>
           </div>
           <div>{blog.author}</div>
+          {showDelete &&
+            <button style={deleteStyle} onClick={clickDelete}>
+              delete
+            </button>
+          }
         </div>
       </div>
     }

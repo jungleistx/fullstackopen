@@ -81,7 +81,6 @@ const App = () => {
       likes: blogToUpdate.likes + 1,
       user: blogToUpdate.user.id
     }
-
     try {
       const returnedBlog = await blogService.update(updatedBlog)
       const updatedBlogs = blogs.map(b => b.id === returnedBlog.id ? returnedBlog : b)
@@ -98,6 +97,12 @@ const App = () => {
     }
   }
 
+
+  const deleteBlog = async (blogToDelete) => {
+    await blogService.deleteBlog(blogToDelete)
+
+    setBlogs(blogs.filter((b) => b.id !== blogToDelete.id))
+  }
 
   return (
     <div>
@@ -120,7 +125,13 @@ const App = () => {
           </Togglable>
 
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} updateLike={updateBlogLike}/>
+            <Blog
+              key={blog.id}
+              blog={blog}
+              updateLike={updateBlogLike}
+              user={user}
+              deleteBlog={deleteBlog}
+            />
           )}
         </>
       }
