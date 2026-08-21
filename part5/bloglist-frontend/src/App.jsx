@@ -18,9 +18,8 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs => (
       setBlogs(blogs.sort((a, b) => b.likes - a.likes))
-    )
-  )
-}, [])
+    ))
+  }, [])
 
 
   useEffect(() => {
@@ -57,8 +56,8 @@ const App = () => {
 
 
   const handleLogout = () => {
-      setUser(null)
-      window.localStorage.removeItem('loggedBlogappUser')
+    setUser(null)
+    window.localStorage.removeItem('loggedBlogappUser')
   }
 
 

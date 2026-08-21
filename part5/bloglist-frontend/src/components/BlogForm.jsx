@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 import blogService from '../services/blogs'
 
 const BlogForm = (p) => {
@@ -18,41 +18,41 @@ const BlogForm = (p) => {
 
   return (
     <>
-    <h2>create new</h2>
-    <form onSubmit={addBlog}>
-      <div>
-        <label>
+      <h2>create new</h2>
+      <form onSubmit={addBlog}>
+        <div>
+          <label>
           title:
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
           author:
-          <input
-            type="text"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
-        </label>
-      </div>
+            <input
+              type="text"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+            />
+          </label>
+        </div>
 
-      <div>
-        <label>
+        <div>
+          <label>
           url:
-          <input
-            type="text"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-          />
-        </label>
-      </div>
-      <button type="submit">create</button>
-    </form>
+            <input
+              type="text"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+            />
+          </label>
+        </div>
+        <button type="submit">create</button>
+      </form>
     </>
   )
 }
