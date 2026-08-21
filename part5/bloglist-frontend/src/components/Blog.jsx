@@ -27,7 +27,9 @@ const Blog = ({ blog, updateLike, user, deleteBlog }) => {
   }
 
   const clickDelete = async () => {
-    deleteBlog(blog)
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      deleteBlog(blog)
+    }
   }
 
 
