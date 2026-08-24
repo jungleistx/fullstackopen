@@ -62,10 +62,12 @@ const App = () => {
 
 
   const addBlog = async (newBlog) => {
-    setBlogs(blogs.concat(newBlog))
+    const returnedBlog = await blogService.create(newBlog)
+
+    setBlogs(blogs.concat(returnedBlog))
     blogFormRef.current.toggleVisibility()
     setNotificationMessage({
-      message: `a new blog ${newBlog.title} by ${newBlog.author} added`,
+      message: `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`,
       type: 'success'
     })
     setTimeout(() => {
@@ -119,7 +121,7 @@ const App = () => {
 
           <Togglable buttonLabel="create new blog" ref={blogFormRef}>
             <BlogForm
-              concatNewBlog={addBlog}
+              addBlog={addBlog}
             />
           </Togglable>
 
