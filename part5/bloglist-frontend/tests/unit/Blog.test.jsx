@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import Blog from '../src/components/Blog'
+import Blog from '../../src/components/Blog'
 import userEvent from '@testing-library/user-event'
 import { beforeEach } from 'vitest'
 
