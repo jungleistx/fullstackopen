@@ -44,7 +44,7 @@ describe('adding new blog', () => {
     const titles = blogsAtEnd.map(b => b.title)
     assert(titles.includes('Blog to add'))
 
-    assert.strictEqual(userId, result.body.user)
+    assert.strictEqual(userId, result.body.user.id)
   })
 
 
@@ -63,7 +63,7 @@ describe('adding new blog', () => {
       .expect('Content-Type', /application\/json/)
 
     assert.strictEqual(response.body.likes, 0)
-    assert.strictEqual(response.body.user, userId)
+    assert.strictEqual(response.body.user.id, userId)
   })
 
 
