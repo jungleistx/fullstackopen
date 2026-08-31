@@ -1,5 +1,5 @@
 const assert = require('node:assert')
-const { test, after, beforeEach, describe } = require('node:test')
+const { test, after, beforeEach, describe, before } = require('node:test')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
@@ -10,6 +10,8 @@ const { listWithOneBlog, listWithManyBlogs, listWithThreeBlogs } = require('../u
 const { favoriteBlog, mostBlogs, mostLikes, totalLikes } = require('../utils/list_helper')
 
 const api = supertest(app)
+let token = null
+
 
 describe('testing blogfunctions and api', () => {
 
@@ -136,6 +138,15 @@ describe('testing blogfunctions and api', () => {
     })
 
     describe('adding new blog', () => {
+      before(async () => {
+        await testHelper.resetUserDb()
+        const loginResponse = await api
+          .post('/api/login')
+          .send({ username: 'root', password: 'mysterypw' })
+
+        token = loginResponse.body.token
+      })
+
       test('succeeds with valid data', async () => {
         const newBlog = {
           title: 'Blog to add, trying comma',
@@ -146,6 +157,7 @@ describe('testing blogfunctions and api', () => {
 
         await api
           .post('/api/blogs')
+          .set('Authorization', `Bearer ${token}`)
           .send(newBlog)
           .expect(201)
           .expect('Content-Type', /application\/json/)
@@ -166,6 +178,7 @@ describe('testing blogfunctions and api', () => {
 
         const response = await api
           .post('/api/blogs')
+          .set('Authorization', `Bearer ${token}`)
           .send(newBlog)
           .expect(201)
           .expect('Content-Type', /application\/json/)
@@ -182,6 +195,7 @@ describe('testing blogfunctions and api', () => {
 
         await api
           .post('/api/blogs')
+          .set('Authorization', `Bearer ${token}`)
           .send(newBlog)
           .expect(400)
       })
@@ -195,6 +209,7 @@ describe('testing blogfunctions and api', () => {
 
         await api
           .post('/api/blogs')
+          .set('Authorization', `Bearer ${token}`)
           .send(newBlog)
           .expect(400)
       })
