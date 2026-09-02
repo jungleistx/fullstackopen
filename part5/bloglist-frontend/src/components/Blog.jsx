@@ -20,7 +20,7 @@ const Blog = ({ blog, updateLike, user, deleteBlog }) => {
   }
 
   const buttonText = isShown ? 'hide' : 'view'
-  const showDelete = user.username === blog.user.username ? true : false
+  const showDelete = user.username === blog.user?.username ? true : false
 
   const addLike = () => {
     updateLike(blog)
