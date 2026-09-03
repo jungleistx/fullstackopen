@@ -24,13 +24,24 @@ describe('Blog app', () => {
     })
 
     test('succeeds with valid credentials', async ({ page }) => {
-      await expect(page.getByRole('button', { name: 'login' })).toBeVisible();
+      await expect(page.getByRole('button', { name: 'login' })).toBeVisible()
 
       await loginWith(page, testUsername, testPassword)
 
-      await expect(page.getByRole('heading', { name: 'blogs' })).toBeVisible();
-      await expect(page.getByText(`${testUsername} logged in`)).toBeVisible();
-      await expect(page.getByRole('button', { name: 'logout' })).toBeVisible();
-    });
+      await expect(page.getByRole('heading', { name: 'blogs' })).toBeVisible()
+      await expect(page.getByText(`${testUsername} logged in`)).toBeVisible()
+      await expect(page.getByRole('button', { name: 'logout' })).toBeVisible()
+    })
+
+    test('fails with invalid credentials', async ({ page }) => {
+      await expect(page.getByRole('button', { name: 'login' })).toBeVisible()
+
+      await loginWith(page, testUsername, 'wrong_pw')
+
+      await expect(page.getByText('wrong credentials')).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'blogs' })).not.toBeVisible()
+      await expect(page.getByRole('button', { name: 'login' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'Log in to the application' })).toBeVisible()
+    })
   })
 })
