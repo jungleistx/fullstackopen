@@ -17,6 +17,18 @@ const createUser = async (request, username, password) => {
 }
 
 
+const createBlog = async (page, title, author, url) => {
+  await page.getByRole('button', { name: 'create new blog' }).click();
+  await page.getByRole('textbox', { name: 'title:' }).click();
+  await page.getByRole('textbox', { name: 'title:' }).fill(title);
+  await page.getByRole('textbox', { name: 'author:' }).click();
+  await page.getByRole('textbox', { name: 'author:' }).fill(author);
+  await page.getByRole('textbox', { name: 'url:' }).click();
+  await page.getByRole('textbox', { name: 'url:' }).fill(url);
+  await page.getByRole('button', { name: 'create' }).click();
+}
+
+
 const resetTestDb = async (request) => {
   await request.post('http://localhost:3001/api/testing/reset')
 }
@@ -24,5 +36,6 @@ const resetTestDb = async (request) => {
 export {
   loginWith,
   createUser,
-  resetTestDb
+  resetTestDb,
+  createBlog
 }

@@ -1,7 +1,10 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
-const { loginWith, createUser, resetTestDb } = require('../helper')
+const { loginWith, createUser, resetTestDb, createBlog } = require('../helper')
 const testUsername = 'root'
 const testPassword = 'pass1'
+const title = 'new title'
+const author = 'john peters'
+const url = 'www.test.net'
 
 
 describe('Blog app', () => {
@@ -42,6 +45,24 @@ describe('Blog app', () => {
       await expect(page.getByRole('heading', { name: 'blogs' })).not.toBeVisible()
       await expect(page.getByRole('button', { name: 'login' })).toBeVisible()
       await expect(page.getByRole('heading', { name: 'Log in to the application' })).toBeVisible()
+    })
+  })
+
+  describe('When logged in', () => {
+    beforeEach(async ({ page }) => {
+      await loginWith(page, testUsername, testPassword)
+    })
+
+    test('can create a new blog', async ({ page }) => {
+      await expect(page.getByRole('button', { name: 'create new blog' })).toBeVisible()
+
+      await createBlog(page, title, author, url)
+
+      // notification
+      await expect(page.getByText(`a new blog ${title} by ${author} added`)).toBeVisible()
+
+      await expect(page.getByRole('button', { name: 'view' })).toBeVisible()
+      await expect(page.getByText(`${title} ${author}`)).toBeVisible();
     })
   })
 })
