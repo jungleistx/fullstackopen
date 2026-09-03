@@ -1,18 +1,47 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
+const testUsername = 'root'
+const testPassword = 'pass1'
+
 
 describe('Blog app', () => {
-  beforeEach(async ({ page }) => {
+  beforeEach(async ({ page, request }) => {
+    await request.post('http://localhost:3001/api/testing/reset')
+
+    await request.post('http://localhost:3001/api/users', {
+      data: {
+        username: testUsername,
+        password: testPassword
+      }
+    })
+
     await page.goto('http://localhost:5173')
   })
 
-  test('has title', async({ page }) => {
+  test('has title', async ({ page }) => {
     await expect(page).toHaveTitle('Blog app')
   })
 
-  test('Login form is shown', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Log in to the application' })).toBeVisible()
-    await expect(page.getByRole('textbox', { name: 'username' })).toBeVisible();
-    await expect(page.getByRole('textbox', { name: 'password' })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'login' })).toBeVisible();
+  describe('Login', () => {
+    test('login form is shown', async ({ page }) => {
+      await expect(page.getByRole('heading', { name: 'Log in to the application' })).toBeVisible()
+      await expect(page.getByRole('textbox', { name: 'username' })).toBeVisible();
+      await expect(page.getByRole('textbox', { name: 'password' })).toBeVisible();
+      await expect(page.getByRole('button', { name: 'login' })).toBeVisible();
+    })
+
+
+    test('succeeds with valid credentials', async ({ page }) => {
+      await expect(page.getByRole('button', { name: 'login' })).toBeVisible();
+
+      await page.getByRole('textbox', { name: 'username' }).click();
+      await page.getByRole('textbox', { name: 'username' }).fill(testUsername);
+      await page.getByRole('textbox', { name: 'password' }).click();
+      await page.getByRole('textbox', { name: 'password' }).fill(testPassword);
+      await page.getByRole('button', { name: 'login' }).click();
+
+      await expect(page.getByRole('heading', { name: 'blogs' })).toBeVisible();
+      await expect(page.getByText(`${testUsername} logged in`)).toBeVisible();
+      await expect(page.getByRole('button', { name: 'logout' })).toBeVisible();
+    });
   })
 })
