@@ -21,9 +21,9 @@ describe('Blog app', () => {
   describe('Login', () => {
     test('login form is shown', async ({ page }) => {
       await expect(page.getByRole('heading', { name: 'Log in to the application' })).toBeVisible()
-      await expect(page.getByRole('textbox', { name: 'username' })).toBeVisible();
-      await expect(page.getByRole('textbox', { name: 'password' })).toBeVisible();
-      await expect(page.getByRole('button', { name: 'login' })).toBeVisible();
+      await expect(page.getByRole('textbox', { name: 'username' })).toBeVisible()
+      await expect(page.getByRole('textbox', { name: 'password' })).toBeVisible()
+      await expect(page.getByRole('button', { name: 'login' })).toBeVisible()
     })
 
     test('succeeds with valid credentials', async ({ page }) => {
@@ -62,7 +62,18 @@ describe('Blog app', () => {
       await expect(page.getByText(`a new blog ${title} by ${author} added`)).toBeVisible()
 
       await expect(page.getByRole('button', { name: 'view' })).toBeVisible()
-      await expect(page.getByText(`${title} ${author}`)).toBeVisible();
+      await expect(page.getByText(`${title} ${author}`)).toBeVisible()
+    })
+
+    test('new blog not created when url missing', async ({ page}) => {
+      await expect(page.getByRole('button', { name: 'create new blog' })).toBeVisible()
+
+      await createBlog(page, title, author, '')
+
+      await expect(page.getByRole('button', { name: 'view' })).not.toBeVisible()
+      await expect(page.getByText(`${title}`)).not.toBeVisible()
+      await expect(page.getByText(`${author}`)).not.toBeVisible()
+      await expect(page.getByRole('button', { name: 'delete' })).not.toBeVisible()
     })
 
     describe('After adding new blog', () => {
@@ -75,21 +86,21 @@ describe('Blog app', () => {
 
         // when hidden
         await expect(page.getByRole('button', { name: 'view' })).toBeVisible()
-        await expect(page.getByText(`${title} ${author}`)).toBeVisible();
-        await expect(page.getByRole('button', { name: 'delete' })).not.toBeVisible();
+        await expect(page.getByText(`${title} ${author}`)).toBeVisible()
+        await expect(page.getByRole('button', { name: 'delete' })).not.toBeVisible()
         // when opened
         await page.getByRole('button', { name: 'view' }).click()
         await expect(page.getByText('likes 0')).toBeVisible()
-        await expect(page.getByRole('button', { name: 'like' })).toBeVisible();
+        await expect(page.getByRole('button', { name: 'like' })).toBeVisible()
         await expect(page.getByText(url)).toBeVisible()
         await expect(page.getByText(`${title}hide`)).toBeVisible()
         await expect(page.getByRole('button', { name: 'hide' })).toBeVisible()
         await expect(page.getByText(author, { exact: true })).toBeVisible()
-        await expect(page.getByRole('button', { name: 'delete' })).toBeVisible();
+        await expect(page.getByRole('button', { name: 'delete' })).toBeVisible()
         // when hidden
-        await page.getByRole('button', { name: 'hide' }).click();
-        await expect(page.getByText(`${title} ${author}`)).toBeVisible();
-        await expect(page.getByRole('button', { name: 'delete' })).not.toBeVisible();
+        await page.getByRole('button', { name: 'hide' }).click()
+        await expect(page.getByText(`${title} ${author}`)).toBeVisible()
+        await expect(page.getByRole('button', { name: 'delete' })).not.toBeVisible()
         await expect(page.getByText('likes 0')).not.toBeVisible()
         await expect(page.getByText(url)).not.toBeVisible()
       })
@@ -100,12 +111,12 @@ describe('Blog app', () => {
         await page.getByRole('button', { name: 'view' }).click()
         // when opened
         await expect(page.getByText('likes 0')).toBeVisible()
-        await expect(page.getByRole('button', { name: 'like' })).toBeVisible();
+        await expect(page.getByRole('button', { name: 'like' })).toBeVisible()
         await page.getByRole('button', { name: 'like' }).click()
         await expect(page.getByText('likes 1')).toBeVisible()
         await expect(page.getByRole('button', { name: 'hide' })).toBeVisible()
         // when hidden
-        await page.getByRole('button', { name: 'hide' }).click();
+        await page.getByRole('button', { name: 'hide' }).click()
         await expect(page.getByText('likes 1')).not.toBeVisible()
         // when opened again
         await page.getByRole('button', { name: 'view' }).click()
